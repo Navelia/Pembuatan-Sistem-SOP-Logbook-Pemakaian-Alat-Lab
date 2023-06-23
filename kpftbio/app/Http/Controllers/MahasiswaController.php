@@ -11,6 +11,15 @@ class MahasiswaController extends Controller
     {
         $data = Alat::all();
 
-        return view("welcome", ["data" => $data]);
+        return view("mahasiswa.welcome", ["data" => $data]);
+    }
+
+    public function detailAlat($id)
+    {
+        $data = Alat::find($id);
+
+        $riwayat = $data->riwayat->sortByDesc("tanggal")->sortBy("jam_mulai");
+
+        return view("mahasiswa.alat_detail", ["data" => $data, "riwayat" => $riwayat]);
     }
 }
