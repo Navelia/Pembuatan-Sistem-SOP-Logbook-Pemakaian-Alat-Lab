@@ -56,21 +56,91 @@
             <h1>{{ $data->nama }}</h1>
         </div>
         <p>{{ $data->deskripsi }}</p>
+
+        <h1>Ini Spesifikasi</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Spesifikasi</th>
+                    <th scope="col">Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data->spesifikasi as $spek)
+                    <tr>
+                        <td>
+                            {{ $spek->nama_spesifikasi }}
+                        </td>
+                        <td>
+                            {{ $spek->spesifikasi }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <h1>Ini SOP</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Urutan</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data->sop as $sop)
+                    <tr>
+                        <td>
+                            {{ $sop->urutan }}
+                        </td>
+                        <td>
+                            {{ $sop->sop }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <h1>Ini Riwayat</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Nama Peminjam</th>
+                    <th scope="col">NRP</th>
+                    <th scope="col">Tanggal Pinjam</th>
+                    <th scope="col">Jam Mulai</th>
+                    <th scope="col">Jam Berakhir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($data->riwayat as $riwayat)
+                    <tr>
+                        <td>
+                            {{ $riwayat->nama_peminjam }}
+                        </td>
+                        <td>
+                            {{ $riwayat->nrp }}
+                        </td>
+                        <td>
+                            {{ \Carbon\Carbon::parse($riwayat->tanggal)->format('d F Y') }}
+                        </td>
+                        <td>
+                            {{ $riwayat->jam_mulai . ':00' }}
+                        </td>
+                        <td>
+                            {{ $riwayat->jam_selesai . ':00' }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
         <div class="d-grid gap-2">
             <a href="#" class="btn btn-primary">Pinjam Alat</a>
-            <a href="#" class="btn btn-primary">Riwayat Peminjaman</a>
+            {{-- <a href="#" class="btn btn-primary">Riwayat Peminjaman</a> --}}
         </div>
 
-        @foreach ($data->spesifikasi as $spek)
-            <tr>
-                <td>
-                    <p>{{ $spek->nama_spesifikasi }}</p>
-                </td>
-                <td>
-                    <p>{{ $spek->spesifikasi }}</p>
-                </td>
-            </tr>
-        @endforeach
+
     </div>
     </div>
 
