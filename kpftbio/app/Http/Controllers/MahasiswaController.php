@@ -41,6 +41,6 @@ class MahasiswaController extends Controller
 
         $riwayat = Riwayat::where("alat_id", $data->id)->orderBy("tanggal")->orderBy("jam_mulai")->get();
 
-        return view("alat.detail_alat", ["data" => $jenis_alat, "dataSpesifikasi" => $spesifikasi, "dataSop" => $sop, "dataRiwayat" => $riwayat]);
+        return view("alat.detail_alat", ["alat" => $data, "data" => $jenis_alat, "dataSpesifikasi" => $spesifikasi, "dataSop" => $sop, "dataRiwayat" => $riwayat]);
     }
 }

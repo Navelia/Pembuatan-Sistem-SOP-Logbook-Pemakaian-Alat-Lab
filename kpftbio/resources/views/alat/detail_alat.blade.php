@@ -53,7 +53,7 @@
             <img src="{{ $data->gambar }}" class="card-img-top img-fluid">
         </div>
         <div class="paragraphs-container">
-            <h1>{{ $data->nama }}</h1>
+            <h1>{{ $data->nama }} - {{ $alat->nomor }}</h1>
         </div>
         <p>{{ $data->deskripsi }}</p>
 
