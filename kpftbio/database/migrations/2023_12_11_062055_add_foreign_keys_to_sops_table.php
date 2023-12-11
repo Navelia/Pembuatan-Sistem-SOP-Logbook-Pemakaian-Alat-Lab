@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSoftDeleteColumn extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSoftDeleteColumn extends Migration
      */
     public function up()
     {
-        Schema::table("alats", function(Blueprint $table){
-            $table->softDeletes();
+        Schema::table('sops', function (Blueprint $table) {
+            $table->foreign(['jenis_alat_id'], 'fk_sop_jenis_alat1')->references(['id'])->on('jenis_alats')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -25,8 +25,8 @@ class AddSoftDeleteColumn extends Migration
      */
     public function down()
     {
-        Schema::table("alats", function(Blueprint $table){
-            $table->dropSoftDeletes();
+        Schema::table('sops', function (Blueprint $table) {
+            $table->dropForeign('fk_sop_jenis_alat1');
         });
     }
-}
+};

@@ -50,7 +50,7 @@
 <body>
     <div class="container">
         <div class="image-container">
-            <img src="{{ asset('images/' . $data->gambar) }}" class="card-img-top img-fluid">
+            <img src="{{ $data->gambar }}" class="card-img-top img-fluid">
         </div>
         <div class="paragraphs-container">
             <h1>{{ $data->nama }}</h1>
@@ -66,10 +66,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data->spesifikasi as $spek)
+                @foreach ($dataSpesifikasi as $spek)
                     <tr>
                         <td>
-                            {{ $spek->nama_spesifikasi }}
+                            {{ $spek->nama }}
                         </td>
                         <td>
                             {{ $spek->spesifikasi }}
@@ -88,7 +88,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data->sop as $sop)
+                @foreach ($dataSop as $sop)
                     <tr>
                         <td>
                             {{ $sop->urutan }}
@@ -113,10 +113,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($data->riwayat as $riwayat)
+                @foreach ($dataRiwayat as $riwayat)
                     <tr>
                         <td>
-                            {{ $riwayat->nama_peminjam }}
+                            {{ $riwayat->nama }}
                         </td>
                         <td>
                             {{ $riwayat->nrp }}

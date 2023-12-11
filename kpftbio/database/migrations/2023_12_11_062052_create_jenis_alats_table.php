@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSopsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateSopsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sops', function (Blueprint $table) {
-            $table->id();
-            $table->string("sop", 500);
-            $table->integer("urutan");
-            $table->unsignedBigInteger("alat_id");
+        Schema::create('jenis_alats', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nama')->nullable();
+            $table->text('deskripsi')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
-
-            $table->foreign("alat_id")->references("id")->on("alats");
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ class CreateSopsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sops');
+        Schema::dropIfExists('jenis_alats');
     }
-}
+};

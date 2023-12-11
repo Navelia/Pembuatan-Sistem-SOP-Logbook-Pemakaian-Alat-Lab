@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRiwayatsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,16 +14,14 @@ class CreateRiwayatsTable extends Migration
     public function up()
     {
         Schema::create('riwayats', function (Blueprint $table) {
-            $table->id();
-            $table->string("nama_peminjam");
-            $table->string("nrp");
-            $table->date("tanggal");
-            $table->integer("jam_mulai");
-            $table->integer("jam_selesai");
-            $table->unsignedBigInteger("alat_id");
+            $table->integer('id', true);
+            $table->string('nama', 255)->nullable();
+            $table->string('nrp', 255)->nullable();
+            $table->date('tanggal')->nullable();
+            $table->integer('jam_mulai')->nullable();
+            $table->integer('jam_selesai')->nullable();
+            $table->integer('alat_id')->index('fk_riwayat_alat1_idx');
             $table->timestamps();
-
-            $table->foreign("alat_id")->references("id")->on("alats");
         });
     }
 
@@ -36,4 +34,4 @@ class CreateRiwayatsTable extends Migration
     {
         Schema::dropIfExists('riwayats');
     }
-}
+};

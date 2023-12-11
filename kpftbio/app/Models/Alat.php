@@ -11,18 +11,18 @@ class Alat extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public function spesifikasi()
-    {
-        return $this->hasMany("App\Models\Spesifikasi", "alat_id");
-    }
-
-    public function sop()
-    {
-        return $this->hasMany("App\Models\Sop", "alat_id");
-    }
-
     public function riwayat()
     {
         return $this->hasMany("App\Models\Riwayat", "alat_id");
+    }
+
+    public function jenisAlat()
+    {
+        return $this->belongsTo("App\Models\JenisAlat", "jenis_alat_id");
+    }
+
+    public function jenisAlatWithTrashed()
+    {
+        return $this->belongsTo("App\Models\JenisAlat", "jenis_alat_id")->withTrashed();
     }
 }

@@ -9,13 +9,13 @@ class Spesifikasi extends Model
 {
     use HasFactory;
 
-    public function alat()
+    public function jenisAlat()
     {
-        return $this->belongsTo("App\Models\Alat", "alat_id");
+        return $this->belongsTo("App\Models\JenisAlat", "jenis_alat_id");
     }
 
-    public function alatWithTrashed()
+    public function jenisAlatWithTrashed()
     {
-        return $this->belongsTo("App\Models\Alat", "alat_id")->withTrashed();
+        return $this->belongsTo("App\Models\JenisAlat", "jenis_alat_id")->withTrashed();
     }
 }
