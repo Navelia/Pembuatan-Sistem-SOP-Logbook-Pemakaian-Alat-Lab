@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [MahasiswaController::class, 'welcome'])->name('welcome');
 Route::get('/detailJenisAlat/{id}', [MahasiswaController::class, 'detailJenisAlat'])->name('detailJenisAlat');
 Route::get('/detailAlat/{id}', [MahasiswaController::class, 'detailAlat'])->name('detailAlat');
+Route::get('/pinjamAlat/{id}', [MahasiswaController::class, 'pinjamAlat'])->name('pinjamAlat');
+Route::get('/changeJamMulai/{alat}/{date}', [MahasiswaController::class, 'changeJamMulai'])->name('changeJamMulai');
+Route::get('/changeJamSelesai/{alat}/{date}/{jamMulai}', [MahasiswaController::class, 'changeJamSelesai'])->name('changeJamSelesai');
+Route::post('/simpanPinjamAlat', [MahasiswaController::class, 'simpanPinjamAlat'])->name('simpanPinjamAlat');
 
 
 

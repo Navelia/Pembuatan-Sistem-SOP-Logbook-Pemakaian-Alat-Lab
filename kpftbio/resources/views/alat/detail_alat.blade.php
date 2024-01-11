@@ -2,150 +2,145 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+  <style>
+    html,
+    body {
+      height: 100%;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+    }
 
-    <style>
-        html,
-        body {
-            height: 100%;
-        }
+    .container {
+      background: rgb(250, 205, 205);
+      padding: 25px;
+    }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
+    .image-container {
+      width: 300px;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      margin-bottom: 20px;
+    }
 
-        .container {
-            text-align: center;
-            background: rgb(250, 205, 205);
-            padding: 25px;
-        }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+    }
 
-        .image-container {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 500px;
-        }
+    .paragraphs-container {
+      text-align: center;
+    }
 
-        .paragraphs-container {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-around;
-        }
-    </style>
+    table {
+      width: 100%;
+    }
+  </style>
 </head>
 
-
 <body>
-    <div class="container">
-        <div class="image-container">
-            <img src="{{ $data->gambar }}" class="card-img-top img-fluid">
-        </div>
+  <div class="container">
+    <div class="image-container">
+      <img src='{{ asset("images/jenis_alat/$data->gambar") }}' class="card-img-top img-fluid">
+    </div>
+    <div class="paragraphs-container">
+      <h1>{{ $data->nama }} - {{ $alat->nomor }}</h1>
+      <p>{{ $data->deskripsi }}</p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
         <div class="paragraphs-container">
-            <h1>{{ $data->nama }} - {{ $alat->nomor }}</h1>
+          <h2>Spesifikasi</h2>
         </div>
-        <p>{{ $data->deskripsi }}</p>
-
-        <h1>Ini Spesifikasi</h1>
         <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Spesifikasi</th>
-                    <th scope="col">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($dataSpesifikasi as $spek)
-                    <tr>
-                        <td>
-                            {{ $spek->nama }}
-                        </td>
-                        <td>
-                            {{ $spek->spesifikasi }}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+          <tbody>
+            @foreach ($dataSpesifikasi as $spek)
+              <tr>
+                <td>{{ $spek->nama }}</td>
+                <td>{{ $spek->spesifikasi }}</td>
+              </tr>
+            @endforeach
+          </tbody>
         </table>
+      </div>
 
-        <h1>Ini SOP</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Urutan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($dataSop as $sop)
-                    <tr>
-                        <td>
-                            {{ $sop->urutan }}
-                        </td>
-                        <td>
-                            {{ $sop->sop }}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <h1>Ini Riwayat</h1>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Nama Peminjam</th>
-                    <th scope="col">NRP</th>
-                    <th scope="col">Tanggal Pinjam</th>
-                    <th scope="col">Jam Mulai</th>
-                    <th scope="col">Jam Berakhir</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($dataRiwayat as $riwayat)
-                    <tr>
-                        <td>
-                            {{ $riwayat->nama }}
-                        </td>
-                        <td>
-                            {{ $riwayat->nrp }}
-                        </td>
-                        <td>
-                            {{ \Carbon\Carbon::parse($riwayat->tanggal)->format('d F Y') }}
-                        </td>
-                        <td>
-                            {{ $riwayat->jam_mulai . ':00' }}
-                        </td>
-                        <td>
-                            {{ $riwayat->jam_selesai . ':00' }}
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <div class="d-grid gap-2">
-            <a href="#" class="btn btn-primary">Pinjam Alat</a>
-            {{-- <a href="#" class="btn btn-primary">Riwayat Peminjaman</a> --}}
+      <div class="col-md-6">
+        <div class="paragraphs-container">
+          <h2>SOP</h2>
         </div>
-
-
-    </div>
+        <table class="table table-striped">
+          <tbody>
+            @foreach ($dataSop as $sop)
+              <tr>
+                <td>{{ $sop->urutan }}</td>
+                <td>{{ $sop->sop }}</td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="table-responsive">
+      <h2>Riwayat</h2>
+      <table class="table table-striped" id="riwayatTable">
+        <thead>
+          <tr>
+            <th scope="col">Nama Peminjam</th>
+            <th scope="col">NRP</th>
+            <th scope="col">Tanggal Pinjam</th>
+            <th scope="col">Jam Mulai</th>
+            <th scope="col">Jam Berakhir</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($dataRiwayat as $riwayat)
+            <tr>
+              <td>{{ $riwayat->nama }}</td>
+              <td>{{ $riwayat->nrp }}</td>
+              <td>{{ \Carbon\Carbon::parse($riwayat->tanggal)->isoFormat('LL') }}</td>
+              @if ($riwayat->jam_mulai < 10)
+                <td>{{ '0' . $riwayat->jam_mulai . ':00' }}</td>
+              @else
+                <td>{{ $riwayat->jam_mulai . ':00' }}</td>
+              @endif
+              @if ($riwayat->jam_selesai < 10)
+                <td>{{ '0' . $riwayat->jam_selesai . ':00' }}</td>
+              @else
+                <td>{{ $riwayat->jam_selesai . ':00' }}</td>
+              @endif
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+
+    <div class="d-grid gap-2 mt-3">
+      <a href="{{ url('pinjamAlat/' . $alat->id) }}" class="btn btn-primary">Pinjam Alat</a>
+    </div>
+  </div>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#riwayatTable').DataTable({
+        "aaSorting": [
+          [2, "desc"],
+          [3, "asc"]
+        ]
+      });
+    });
+  </script>
 </body>
 
 </html>

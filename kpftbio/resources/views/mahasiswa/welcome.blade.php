@@ -19,7 +19,7 @@
             @foreach ($data as $d)
                 <div class="col-md-3">
                     <div class="card">
-                        <img src="{{ $d->gambar }}" class="card-img-top" alt="...">
+                        <img src='{{ asset("images/jenis_alat/$d->gambar") }}' class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title">{{ $d->nama }}</h5>
                             <p class="card-text">{{ $d->deskripsi }}</p>
