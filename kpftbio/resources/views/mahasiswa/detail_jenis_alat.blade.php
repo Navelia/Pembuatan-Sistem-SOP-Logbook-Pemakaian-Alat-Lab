@@ -22,7 +22,7 @@
     }
 
     .image-container {
-        width: 300px;
+      width: 300px;
       height: auto;
       display: flex;
       align-items: center;
