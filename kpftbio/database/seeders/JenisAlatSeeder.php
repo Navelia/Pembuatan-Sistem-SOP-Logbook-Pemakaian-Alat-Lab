@@ -17,13 +17,13 @@ class JenisAlatSeeder extends Seeder
         DB::table("jenis_alats")->insert([
             "nama" => "Jenis Alat 1",
             "deskripsi" => "Ini Deskripsi Jenis Alat 1",
-            "gambar" => "https://demo.binabakti.co.id/wp-content/uploads/2021/04/2.-XSP-104-ok.jpg"
+            "gambar" => "jenis-1.jpg"
         ]);
 
         DB::table("jenis_alats")->insert([
             "nama" => "Jenis Alat 2",
             "deskripsi" => "Ini Deskripsi Jenis Alat 2",
-            "gambar" => "https://www.flinnsci.com/globalassets/flinn-scientific/all-product-images-rgb-jpegs/ms1130.jpg"
+            "gambar" => "jenis-2.jpg"
         ]);
     }
 }

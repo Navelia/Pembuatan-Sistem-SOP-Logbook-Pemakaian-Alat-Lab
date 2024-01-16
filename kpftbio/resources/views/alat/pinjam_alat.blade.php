@@ -61,7 +61,7 @@
       <p>{{ $data->deskripsi }}</p>
     </div>
     <div class="table-responsive">
-      <h2>Riwayat</h2>
+      <h2>Peminjaman 7 Hari Kedepan</h2>
       <table class="table table-striped" id="riwayatTable">
         <thead>
           <tr>

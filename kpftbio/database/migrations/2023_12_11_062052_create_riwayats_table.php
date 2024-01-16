@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('jam_selesai')->nullable();
             $table->integer('alat_id')->index('fk_riwayat_alat1_idx');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
