@@ -33,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
 
   Route::get('/hapusRiwayat/{id}', [AdminController::class, 'hapusRiwayat'])->name('hapusRiwayat');
+  Route::get('/hapusJenisAlat/{id}', [AdminController::class, 'hapusJenisAlat'])->name('hapusJenisAlat');
 });
 
 Auth::routes();

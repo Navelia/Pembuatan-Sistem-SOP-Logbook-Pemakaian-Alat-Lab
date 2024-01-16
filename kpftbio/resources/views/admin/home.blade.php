@@ -56,7 +56,7 @@
             <td>{{ $jenisAlat['data_jenis']->deskripsi }}</td>
             <td>{{ $jenisAlat['jumlah_alat'] }}</td>
             <td><a href="{{ url('pinjamAlat/') }}" class="btn btn-primary">Ubah</a></td>
-            <td><a href="{{ url('pinjamAlat/') }}" class="btn btn-danger">Hapus</a></td>
+            <td><a href="{{ url('hapusJenisAlat/' . $jenisAlat['data_jenis']->id) }}" class="btn btn-danger" onclick="return confirm('Hapus jenis alat ({{$jenisAlat['data_jenis']->nama}}) dan seluruh datanya?')">Hapus</a></td>
             <td style="display: none"></td>
           </tr>
         @endforeach
