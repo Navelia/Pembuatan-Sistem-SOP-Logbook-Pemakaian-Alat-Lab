@@ -31,8 +31,17 @@ Route::post('/simpanPinjamAlat', [MahasiswaController::class, 'simpanPinjamAlat'
 Route::middleware(['auth'])->group(function () {
   Route::get('/home', [AdminController::class, 'home'])->name('home');
 
+  Route::get('/tambahJenisAlat', [AdminController::class, 'tambahJenisAlat'])->name('tambahJenisAlat');
+  Route::post('/simpanTambahJenisAlat', [AdminController::class, 'simpanTambahJenisAlat'])->name('simpanTambahJenisAlat');
+
+  Route::get('/ubahJenisAlat/{id}', [AdminController::class, 'ubahJenisAlat'])->name('ubahJenisAlat');
+  Route::post('/ubahGambarJenisAlat', [AdminController::class, 'ubahGambarJenisAlat'])->name('ubahGambarJenisAlat');
+  Route::post('/simpanUbahJenisAlat', [AdminController::class, 'simpanUbahJenisAlat'])->name('simpanUbahJenisAlat');
+
+  Route::post('/tambahAlat', [AdminController::class, 'tambahAlat'])->name('tambahAlat');
 
   Route::get('/hapusRiwayat/{id}', [AdminController::class, 'hapusRiwayat'])->name('hapusRiwayat');
+  Route::get('/hapusAlat/{id}', [AdminController::class, 'hapusAlat'])->name('hapusAlat');
   Route::get('/hapusJenisAlat/{id}', [AdminController::class, 'hapusJenisAlat'])->name('hapusJenisAlat');
 });
 
