@@ -8,6 +8,8 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     html,
     body {
@@ -42,6 +44,23 @@
 
     table {
       width: 100%;
+    }
+
+    .cardContainer {
+      text-align: center;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    #templateCetak {
+      display: inline-block;
+    }
+
+    #namaCetakAlat {
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -132,16 +151,31 @@
     <thead>
       <th>Alat</th>
       <th>Hapus</th>
+      <th>Cetak</th>
     </thead>
     <tbody>
       @foreach ($dataAlat as $alat)
         <tr>
           <td href="{{ url('detailAlat/' . $alat->id) }}">{{ $dataJenisAlat->nama }} - {{ $alat->nomor }}</td>
           <td><a href="{{ url('hapusAlat/' . $alat->id) }}" class="btn btn-danger" onclick="return confirm('Hapus alat ({{ $dataJenisAlat->nama }} - {{ $alat->nomor }}) dan seluruh datanya?')">Hapus</a></td>
+          <td><button class="btn btn-info" idAlat="{{ $alat->id }}" namaAlat="{{ $dataJenisAlat->nama }} - {{ $alat->nomor }}" onClick='cetak_alat(this)'>Cetak</button></td>
         </tr>
       @endforeach
     </tbody>
   </table>
+
+  {{-- Template Cetak QR Alat --}}
+  {{-- <div style="display: none"> --}}
+  <div id="templateCetak">
+    <div class="cardContainer">
+      <div>
+        <div id="namaCetakAlat">
+        </div>
+        <div id="qrcode">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
@@ -166,6 +200,47 @@
     function delete_row(element) {
       element.closest("tr").remove();
     };
+
+    function cetak_alat(element) {
+      var idAlat = element.getAttribute("idAlat");
+      var namaAlat = element.getAttribute("namaAlat");
+      var namaCetakAlat = document.getElementById("namaCetakAlat")
+      namaCetakAlat.innerHTML = namaAlat;
+
+      var qrcodeDiv = document.getElementById("qrcode");
+      qrcodeDiv.innerHTML = "";
+
+      var qrcode = new QRCode("qrcode", {
+        text: "{{ url('detailAlat/') }}/" + idAlat,
+        width: 300,
+        height: 300,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      var templateCetak = document.getElementById("templateCetak");
+      html2canvas(templateCetak)
+        .then(canvas => {
+          canvas.style.display = 'none'
+          document.body.appendChild(canvas)
+          return canvas
+        })
+        .then(canvas => {
+          const image = canvas.toDataURL('image/png')
+          const a = document.createElement('a')
+          a.setAttribute('download', namaAlat + '.png')
+          a.setAttribute('href', image)
+          a.click()
+          canvas.remove()
+        })
+
+      var namaCetakAlat = document.getElementById("namaCetakAlat")
+      namaCetakAlat.innerHTML = "";
+
+      var qrcodeDiv = document.getElementById("qrcode");
+      qrcodeDiv.innerHTML = "";
+    }
 
     // Sortable Spesifikasi
     const sortableList =

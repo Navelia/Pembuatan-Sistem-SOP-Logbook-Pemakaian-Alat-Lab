@@ -153,6 +153,7 @@
       if (selectedTanggal == "") {
         var jamMulaiSelect = document.getElementById('jam_mulai');
         jamMulaiSelect.innerHTML = '<option value="" selected hidden>Pilih Tanggal Terlebih Dahulu</option>';
+        $("#jam_mulai").attr("disabled", true);
       } else {
         $.ajax({
           url: '/changeJamMulai/' + alat_id + "/" + selectedTanggal,
@@ -186,12 +187,15 @@
       if (selectedTanggal == "") {
         var jamMulaiSelect = document.getElementById('jam_mulai');
         jamMulaiSelect.innerHTML = '<option value="" selected hidden>Pilih Tanggal Terlebih Dahulu</option>';
+        $("#jam_mulai").attr("disabled", true);
 
         var jamSelesaiSelect = document.getElementById('jam_selesai');
         jamSelesaiSelect.innerHTML = '<option value="" selected hidden>Pilih Jam Mulai Terlebih Dahulu</option>';
+        $("#jam_selesai").attr("disabled", true);
       } else if (selectedJamMulai == "") {
         var jamSelesaiSelect = document.getElementById('jam_selesai');
         jamSelesaiSelect.innerHTML = '<option value="" selected hidden>Pilih Jam Mulai Terlebih Dahulu</option>';
+        $("#jam_selesai").attr("disabled", true);
       } else {
         $.ajax({
           url: '/changeJamSelesai/' + alat_id + "/" + selectedTanggal + "/" + selectedJamMulai,

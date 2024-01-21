@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/hapusRiwayat/{id}', [AdminController::class, 'hapusRiwayat'])->name('hapusRiwayat');
   Route::get('/hapusAlat/{id}', [AdminController::class, 'hapusAlat'])->name('hapusAlat');
   Route::get('/hapusJenisAlat/{id}', [AdminController::class, 'hapusJenisAlat'])->name('hapusJenisAlat');
+
+
+  Route::get('/changeJamSelesaiAdmin/{alat}/{date}/{jamMulai}', [AdminController::class, 'changeJamSelesaiAdmin'])->name('changeJamSelesaiAdmin');
+  Route::post('/simpanPinjamAlatAdmin', [AdminController::class, 'simpanPinjamAlatAdmin'])->name('simpanPinjamAlatAdmin');
 });
 
 Auth::routes();

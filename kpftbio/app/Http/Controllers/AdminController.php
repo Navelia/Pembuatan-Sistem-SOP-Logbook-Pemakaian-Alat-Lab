@@ -10,6 +10,7 @@ use App\Models\Spesifikasi;
 use Carbon\Carbon;
 use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class AdminController extends Controller
 {
@@ -25,6 +26,15 @@ class AdminController extends Controller
         }
 
         $riwayat = Riwayat::where("tanggal", Carbon::now()->isoFormat('YYYY-MM-DD'))->orderBy("tanggal")->orderBy("jam_mulai")->get();
+        $dataRiwayatHariIni = [];
+
+        foreach ($riwayat as $temp) {
+            $alat = Alat::find($temp->alat_id);
+            $jenisALat = JenisAlat::find($alat->jenis_alat_id);
+            array_push($dataRiwayatHariIni, ["riwayat" => $temp, "alat" => $alat, "jenisAlat" => $jenisALat]);
+        }
+
+        $riwayat = Riwayat::all();
         $dataRiwayat = [];
 
         foreach ($riwayat as $temp) {
@@ -33,7 +43,14 @@ class AdminController extends Controller
             array_push($dataRiwayat, ["riwayat" => $temp, "alat" => $alat, "jenisAlat" => $jenisALat]);
         }
 
-        return view("admin.home", ["data" => $data, "dataRiwayat" => $dataRiwayat]);
+        $alat = Alat::all();
+        $dataAlat = [];
+
+        foreach($alat as $temp){
+            array_push($dataAlat, ["id" => $temp->id, "nama" => $temp->jenisAlat->nama . " - " . $temp->nomor]);
+        }
+
+        return view("admin.home", ["data" => $data, "dataRiwayatHariIni" => $dataRiwayatHariIni, "dataRiwayat" => $dataRiwayat, "dataAlat" => $dataAlat]);
     }
 
     public function tambahJenisAlat()
@@ -218,5 +235,63 @@ class AdminController extends Controller
         } else {
             return redirect("/home")->with('status', 'Jenis alat gagal dihapus');
         }
+    }
+
+    public function changeJamSelesaiAdmin($alat, $date, $jamMulai)
+    {
+        $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $date)->where("jam_mulai", ">", $jamMulai)->orderBy("jam_mulai")->get();
+        $selesai = 17;
+        if(count($riwayat) > 0){
+            $temp = $riwayat[0]->jam_mulai;
+            if($selesai - $temp > 0){
+                $selesai = $temp;
+            }
+        }
+        $jamSelesai = range($jamMulai + 1, $selesai);
+
+        $jamSelesaiOptions = [];
+
+        foreach ($jamSelesai as $temp) {
+            $text = "$temp:00";
+            $array = ['value' => $temp, 'text' => $text];
+            array_push($jamSelesaiOptions, $array);
+        }
+
+        return response()->json($jamSelesaiOptions);
+    }
+
+    public function simpanPinjamAlatAdmin(Request $request)
+    {
+        $nama = $request->get("nama");
+        $nrp = $request->get("nrp");
+        $tanggal = $request->get("tanggal");
+        $jam_mulai = $request->get("jam_mulai");
+        $jam_selesai = $request->get("jam_selesai");
+        $alat_id = $request->get("alat_id");
+
+        $alat = Alat::where("id", $alat_id)->get();
+        if(count($alat) == 0){
+            return redirect()->back()->with('status', 'Data alat tidak ditemukan');
+        }
+
+        if($jam_mulai > $jam_selesai){
+            return redirect()->back()->with('status', 'Jam peminjaman tidak sesuai');
+        }
+
+        $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $tanggal)->where("jam_mulai", ">=", $jam_mulai)->where("jam_mulai", "<", $jam_selesai)->get();
+        if(count($riwayat) > 0){
+            return redirect()->back()->with('status', 'Jadwal yang dipilih bertabrakan dengan jadwal lain');
+        }
+
+        $riwayat = new Riwayat();
+        $riwayat->nama = $nama;
+        $riwayat->nrp = $nrp;
+        $riwayat->tanggal = $tanggal;
+        $riwayat->jam_mulai = $jam_mulai;
+        $riwayat->jam_selesai = $jam_selesai;
+        $riwayat->alat_id = $alat_id;
+
+        $riwayat->save();
+        return redirect()->back()->with('status', 'Berhasil menambahkan data peminjaman baru');
     }
 }
