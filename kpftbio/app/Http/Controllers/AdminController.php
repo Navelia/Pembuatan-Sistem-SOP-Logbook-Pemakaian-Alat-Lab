@@ -46,7 +46,7 @@ class AdminController extends Controller
         $alat = Alat::all();
         $dataAlat = [];
 
-        foreach($alat as $temp){
+        foreach ($alat as $temp) {
             array_push($dataAlat, ["id" => $temp->id, "nama" => $temp->jenisAlat->nama . " - " . $temp->nomor]);
         }
 
@@ -63,10 +63,9 @@ class AdminController extends Controller
         $jenisALat = new JenisAlat();
 
         $nomorId = JenisAlat::all()->last();
-        if($nomorId){
+        if ($nomorId) {
             $nomorId = $nomorId->id + 1;
-        }
-        else{
+        } else {
             $nomorId = 1;
         }
 
@@ -182,10 +181,9 @@ class AdminController extends Controller
         $jenisALatId = $request->idJenisAlat;
 
         $nomorAkhir = Alat::where("jenis_alat_id", $jenisALatId)->orderBy("nomor")->get()->last();
-        if($nomorAkhir){
+        if ($nomorAkhir) {
             $nomorAkhir = $nomorAkhir->nomor + 1;
-        }
-        else{
+        } else {
             $nomorAkhir = 1;
         }
 
@@ -240,19 +238,37 @@ class AdminController extends Controller
     public function changeJamSelesaiAdmin($alat, $date, $jamMulai)
     {
         $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $date)->where("jam_mulai", ">", $jamMulai)->orderBy("jam_mulai")->get();
-        $selesai = 17;
-        if(count($riwayat) > 0){
+        $selesai = 24;
+        if (count($riwayat) > 0) {
             $temp = $riwayat[0]->jam_mulai;
-            if($selesai - $temp > 0){
+            if ($selesai - $temp > 0) {
                 $selesai = $temp;
             }
         }
-        $jamSelesai = range($jamMulai + 1, $selesai);
+        $jamSelesai = range($jamMulai + 0.5, $selesai, 0.5);
 
         $jamSelesaiOptions = [];
 
         foreach ($jamSelesai as $temp) {
-            $text = "$temp:00";
+            $text = "";
+            if (fmod($temp, 1) == 0) {
+                if ($temp < 10) {
+                    $text = "0$temp";
+                }
+                else{
+                    $text = "$temp";
+                }
+                $text = "$text:00";
+            } else {
+                $temp2 = $temp - 0.5;
+                if ($temp < 10) {
+                    $text = "0$temp2";
+                }
+                else{
+                    $text = "$temp2";
+                }
+                $text = "$text:30";
+            }
             $array = ['value' => $temp, 'text' => $text];
             array_push($jamSelesaiOptions, $array);
         }
@@ -270,16 +286,16 @@ class AdminController extends Controller
         $alat_id = $request->get("alat_id");
 
         $alat = Alat::where("id", $alat_id)->get();
-        if(count($alat) == 0){
+        if (count($alat) == 0) {
             return redirect()->back()->with('status', 'Data alat tidak ditemukan');
         }
 
-        if($jam_mulai > $jam_selesai){
+        if ($jam_mulai > $jam_selesai) {
             return redirect()->back()->with('status', 'Jam peminjaman tidak sesuai');
         }
 
         $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $tanggal)->where("jam_mulai", ">=", $jam_mulai)->where("jam_mulai", "<", $jam_selesai)->get();
-        if(count($riwayat) > 0){
+        if (count($riwayat) > 0) {
             return redirect()->back()->with('status', 'Jadwal yang dipilih bertabrakan dengan jadwal lain');
         }
 

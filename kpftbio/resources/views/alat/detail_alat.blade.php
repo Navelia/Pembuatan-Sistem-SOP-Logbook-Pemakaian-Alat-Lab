@@ -107,16 +107,32 @@
             <tr>
               <td>{{ $riwayat->nama }}</td>
               <td>{{ $riwayat->nrp }}</td>
-              <td>{{ \Carbon\Carbon::parse($riwayat->tanggal)->isoFormat('LL') }}</td>
+              <td data-sort="{{strtotime($riwayat->tanggal)}}">{{ \Carbon\Carbon::parse($riwayat->tanggal)->isoFormat('LL') }}</td>
               @if ($riwayat->jam_mulai < 10)
-                <td>{{ '0' . $riwayat->jam_mulai . ':00' }}</td>
+                @if (fmod($riwayat->jam_mulai, 1) == 0)
+                  <td>{{ '0' . $riwayat->jam_mulai . ':00' }}</td>
+                @else
+                  <td>{{ '0' . ($riwayat->jam_mulai - 0.5) . ':30' }}</td>
+                @endif
               @else
-                <td>{{ $riwayat->jam_mulai . ':00' }}</td>
+                @if (fmod($riwayat->jam_mulai, 1) == 0)
+                  <td>{{ $riwayat->jam_mulai . ':00' }}</td>
+                @else
+                  <td>{{ $riwayat->jam_mulai - 0.5 . ':30' }}</td>
+                @endif
               @endif
               @if ($riwayat->jam_selesai < 10)
-                <td>{{ '0' . $riwayat->jam_selesai . ':00' }}</td>
+                @if (fmod($riwayat->jam_selesai, 1) == 0)
+                  <td>{{ '0' . $riwayat->jam_selesai . ':00' }}</td>
+                @else
+                  <td>{{ '0' . ($riwayat->jam_selesai - 0.5) . ':30' }}</td>
+                @endif
               @else
-                <td>{{ $riwayat->jam_selesai . ':00' }}</td>
+                @if (fmod($riwayat->jam_selesai, 1) == 0)
+                  <td>{{ $riwayat->jam_selesai . ':00' }}</td>
+                @else
+                  <td>{{ $riwayat->jam_selesai - 0.5 . ':30' }}</td>
+                @endif
               @endif
             </tr>
           @endforeach

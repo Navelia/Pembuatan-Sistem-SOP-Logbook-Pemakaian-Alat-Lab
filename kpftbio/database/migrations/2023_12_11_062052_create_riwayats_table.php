@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('nama', 255)->nullable();
             $table->string('nrp', 255)->nullable();
             $table->date('tanggal')->nullable();
-            $table->integer('jam_mulai')->nullable();
-            $table->integer('jam_selesai')->nullable();
+            $table->float('jam_mulai')->nullable();
+            $table->float('jam_selesai')->nullable();
             $table->integer('alat_id')->index('fk_riwayat_alat1_idx');
             $table->timestamps();
             $table->softDeletes();
