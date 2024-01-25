@@ -248,11 +248,7 @@ class AdminController extends Controller
     public function changeJamSelesaiAdmin($alat, $date, $jamMulai)
     {
         $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $date)->where("jam_mulai", ">", $jamMulai)->orderBy("jam_mulai")->get();
-<<<<<<< Updated upstream
         $selesai = 24;
-=======
-        $selesai = 17;
->>>>>>> Stashed changes
         if (count($riwayat) > 0) {
             $temp = $riwayat[0]->jam_mulai;
             if ($selesai - $temp > 0) {

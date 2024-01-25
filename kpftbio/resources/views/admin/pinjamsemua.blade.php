@@ -8,7 +8,7 @@
 
     <div class="table-responsive">
         <h2>Data Semua Peminjaman Alat</h2>
-        <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat">+Tambah Data Peminjaman</a>
+        <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat"> + Tambah Data Peminjaman</a>
         <table class="table table-striped" id="riwayatTable">
             <thead>
                 <tr>
@@ -27,16 +27,33 @@
                         <td>{{ $riwayat['riwayat']->nama }}</td>
                         <td>{{ $riwayat['riwayat']->nrp }}</td>
                         <td>{{ $riwayat['jenisAlat']->nama . ' - ' . $riwayat['alat']->nomor }}</td>
-                        <td>{{ \Carbon\Carbon::parse($riwayat['riwayat']->tanggal)->isoFormat('LL') }}</td>
+                        <td data-sort="{{ strtotime($riwayat['riwayat']->tanggal) }}">
+                            {{ \Carbon\Carbon::parse($riwayat['riwayat']->tanggal)->isoFormat('LL') }}</td>
                         @if ($riwayat['riwayat']->jam_mulai < 10)
-                            <td>{{ '0' . $riwayat['riwayat']->jam_mulai . ':00' }}</td>
+                            @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
+                                <td>{{ '0' . $riwayat['riwayat']->jam_mulai . ':00' }}</td>
+                            @else
+                                <td>{{ '0' . ($riwayat['riwayat']->jam_mulai - 0.5) . ':30' }}</td>
+                            @endif
                         @else
-                            <td>{{ $riwayat['riwayat']->jam_mulai . ':00' }}</td>
+                            @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
+                                <td>{{ $riwayat['riwayat']->jam_mulai . ':00' }}</td>
+                            @else
+                                <td>{{ $riwayat['riwayat']->jam_mulai - 0.5 . ':30' }}</td>
+                            @endif
                         @endif
                         @if ($riwayat['riwayat']->jam_selesai < 10)
-                            <td>{{ '0' . $riwayat['riwayat']->jam_selesai . ':00' }}</td>
+                            @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
+                                <td>{{ '0' . $riwayat['riwayat']->jam_selesai . ':00' }}</td>
+                            @else
+                                <td>{{ '0' . ($riwayat['riwayat']->jam_selesai - 0.5) . ':30' }}</td>
+                            @endif
                         @else
-                            <td>{{ $riwayat['riwayat']->jam_selesai . ':00' }}</td>
+                            @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
+                                <td>{{ $riwayat['riwayat']->jam_selesai . ':00' }}</td>
+                            @else
+                                <td>{{ $riwayat['riwayat']->jam_selesai - 0.5 . ':30' }}</td>
+                            @endif
                         @endif
                         <td><a href="{{ url('hapusRiwayat/' . $riwayat['riwayat']->id) }}" class="btn btn-danger"
                                 onclick="return confirm('Hapus peminjaman ini?')">Hapus</a></td>

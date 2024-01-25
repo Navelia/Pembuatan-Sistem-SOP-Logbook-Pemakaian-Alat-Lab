@@ -21,16 +21,13 @@
         href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet" />
 
-    <!-- Icons. Uncomment required icon fonts -->
     <link rel="stylesheet" href="{{ asset('adminassets/vendor/fonts/boxicons.css') }}" />
 
-    <!-- Core CSS -->
     <link rel="stylesheet" href="{{ asset('adminassets/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('adminassets/vendor/css/theme-default.css') }}"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('adminassets/css/demo.css') }}" />
 
-    <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('adminassets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
 
     <link rel="stylesheet" href="{{ asset('adminassets/vendor/libs/apex-charts/apex-charts.css') }}" />
@@ -51,7 +48,7 @@
             --primary: #3DA50C;
         }
 
-        *{
+        * {
             padding: 0;
             margin: 0;
             text-decoration: none;
@@ -79,8 +76,6 @@
 <body>
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
-            <!-- Menu -->
-
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand mt-4">
                     <div class="row">
@@ -105,21 +100,14 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <div>Peminjaman Alat</div>
+                        <a href="{{ route('riwayatpinjamhariini') }}" class="menu-link">
+                            <div>Pinjam Alat Hari Ini</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="{{ route('riwayatpinjamhariini') }}" class="menu-link">
-                                    <div>Hari Ini</div>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="{{ route('riwayatpinjamsemua') }}" class="menu-link">
-                                    <div>Semua</div>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('riwayatpinjamsemua') }}" class="menu-link">
+                            <div>Semua Peminjaman Alat</div>
+                        </a>
                     </li>
 
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Logout</span></li>
@@ -148,163 +136,30 @@
         <div class="layout-overlay layout-menu-toggle"></div>
     </div>
 
-<<<<<<< Updated upstream
-  <div class="table-responsive">
-    <h2>Peminjaman Alat Hari Ini</h2>
-    <table class="table table-striped" id="riwayatHariIniTable">
-      <thead>
-        <tr>
-          <th scope="col">Nama Peminjam</th>
-          <th scope="col">NRP</th>
-          <th scope="col">Alat</th>
-          <th scope="col">Tanggal Pinjam</th>
-          <th scope="col">Jam Mulai</th>
-          <th scope="col">Jam Berakhir</th>
-          <th scope="col">Hapus</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($dataRiwayatHariIni as $riwayat)
-          <tr>
-            <td>{{ $riwayat['riwayat']->nama }}</td>
-            <td>{{ $riwayat['riwayat']->nrp }}</td>
-            <td>{{ $riwayat['jenisAlat']->nama . ' - ' . $riwayat['alat']->nomor }}</td>
-            <td data-sort="{{strtotime($riwayat['riwayat']->tanggal)}}">{{ \Carbon\Carbon::parse($riwayat['riwayat']->tanggal)->isoFormat('LL') }}</td>
-            @if ($riwayat['riwayat']->jam_mulai < 10)
-              @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
-                <td>{{ '0' . $riwayat['riwayat']->jam_mulai . ':00' }}</td>
-              @else
-                <td>{{ '0' . ($riwayat['riwayat']->jam_mulai - 0.5) . ':30' }}</td>
-              @endif
-            @else
-              @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
-                <td>{{ $riwayat['riwayat']->jam_mulai . ':00' }}</td>
-              @else
-                <td>{{ $riwayat['riwayat']->jam_mulai - 0.5 . ':30' }}</td>
-              @endif
-            @endif
-            @if ($riwayat['riwayat']->jam_selesai < 10)
-              @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
-                <td>{{ '0' . $riwayat['riwayat']->jam_selesai . ':00' }}</td>
-              @else
-                <td>{{ '0' . ($riwayat['riwayat']->jam_selesai - 0.5) . ':30' }}</td>
-              @endif
-            @else
-              @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
-                <td>{{ $riwayat['riwayat']->jam_selesai . ':00' }}</td>
-              @else
-                <td>{{ $riwayat['riwayat']->jam_selesai - 0.5 . ':30' }}</td>
-              @endif
-            @endif
-            <td><a href="{{ url('hapusRiwayat/' . $riwayat['riwayat']->id) }}" class="btn btn-danger" onclick="return confirm('Hapus peminjaman ini?')">Hapus</a></td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
-
-  <div class="table-responsive">
-    <h2>Data Semua Peminjaman Alat</h2>
-    <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat">Tambah Data Peminjaman</a>
-    <table class="table table-striped" id="riwayatTable">
-      <thead>
-        <tr>
-          <th scope="col">Nama Peminjam</th>
-          <th scope="col">NRP</th>
-          <th scope="col">Alat</th>
-          <th scope="col">Tanggal Pinjam</th>
-          <th scope="col">Jam Mulai</th>
-          <th scope="col">Jam Berakhir</th>
-          <th scope="col">Hapus</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($dataRiwayat as $riwayat)
-          <tr>
-            <td>{{ $riwayat['riwayat']->nama }}</td>
-            <td>{{ $riwayat['riwayat']->nrp }}</td>
-            <td>{{ $riwayat['jenisAlat']->nama . ' - ' . $riwayat['alat']->nomor }}</td>
-            <td data-sort="{{strtotime($riwayat['riwayat']->tanggal)}}">{{ \Carbon\Carbon::parse($riwayat['riwayat']->tanggal)->isoFormat('LL') }}</td>
-            @if ($riwayat['riwayat']->jam_mulai < 10)
-              @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
-                <td>{{ '0' . $riwayat['riwayat']->jam_mulai . ':00' }}</td>
-              @else
-                <td>{{ '0' . ($riwayat['riwayat']->jam_mulai - 0.5) . ':30' }}</td>
-              @endif
-            @else
-              @if (fmod($riwayat['riwayat']->jam_mulai, 1) == 0)
-                <td>{{ $riwayat['riwayat']->jam_mulai . ':00' }}</td>
-              @else
-                <td>{{ $riwayat['riwayat']->jam_mulai - 0.5 . ':30' }}</td>
-              @endif
-            @endif
-            @if ($riwayat['riwayat']->jam_selesai < 10)
-              @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
-                <td>{{ '0' . $riwayat['riwayat']->jam_selesai . ':00' }}</td>
-              @else
-                <td>{{ '0' . ($riwayat['riwayat']->jam_selesai - 0.5) . ':30' }}</td>
-              @endif
-            @else
-              @if (fmod($riwayat['riwayat']->jam_selesai, 1) == 0)
-                <td>{{ $riwayat['riwayat']->jam_selesai . ':00' }}</td>
-              @else
-                <td>{{ $riwayat['riwayat']->jam_selesai - 0.5 . ':30' }}</td>
-              @endif
-            @endif
-            <td><a href="{{ url('hapusRiwayat/' . $riwayat['riwayat']->id) }}" class="btn btn-danger" onclick="return confirm('Hapus peminjaman ini?')">Hapus</a></td>
-          </tr>
-        @endforeach
-      </tbody>
-    </table>
-  </div>
-=======
     <!-- Core JS -->
-    <!-- build:js adminassets/vendor/js/core.js -->
-    <script src="{{ asset('adminassets/vendor/libs/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('adminassets/vendor/libs/popper/popper.js') }}"></script>
-    <script src="{{ asset('adminassets/vendor/js/bootstrap.js') }}"></script>
-    <script src="{{ asset('adminassets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+    <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-    <script src="{{ asset('adminassets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
->>>>>>> Stashed changes
 
     <!-- Vendors JS -->
-    <script src="{{ asset('adminassets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
     <!-- Main JS -->
-    <script src="{{ asset('adminassets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
-<<<<<<< Updated upstream
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(function() {
-      $('#riwayatHariIniTable').DataTable({
-        "aaSorting": [
-          [3, "desc"],
-          [4, "asc"]
-        ]
-      });
-
-      $('#riwayatTable').DataTable({
-        "aaSorting": [
-          [3, "desc"],
-          [4, "asc"]
-        ]
-      });
-=======
     <!-- Page JS -->
-    <script src="{{ asset('adminassets/js/dashboards-analytics.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
->>>>>>> Stashed changes
 
     <!-- DataTables -->
-    <script src="{{ asset('adminassets/DataTables/datatables.js') }}"></script>
+    <script src="{{ asset('assets/DataTables/datatables.js') }}"></script>
     <!-- Script  -->
     @yield('script')
 </body>
