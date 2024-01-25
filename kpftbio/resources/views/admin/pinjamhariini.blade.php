@@ -68,8 +68,8 @@
         $(document).ready(function() {
             $('#riwayatHariIniTable').DataTable({
                 "aaSorting": [
-                    [2, "desc"],
-                    [3, "asc"]
+                    [3, "desc"],
+                    [4, "asc"]
                 ]
             });
         });

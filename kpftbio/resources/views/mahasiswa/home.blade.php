@@ -18,7 +18,7 @@
                 </div>
             @endforeach
         </div>
-        <div class="row mt-4">
+        {{-- <div class="row mt-4">
             <div class="col-12">
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -38,6 +38,6 @@
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection

@@ -100,29 +100,8 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#"><img id="navbar-logo" src="https://simlabftb.top/logo.png"
+                <a class="navbar-brand" href="{{url("/")}}"><img id="navbar-logo" src="https://simlabftb.top/logo.png"
                         alt="FTBio Ubaya"></a>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Alat</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Nama Pengguna
-                            </a>
-                            <ul class="dropdown-menu">
-                                {{-- <li>
-                                    <hr class="dropdown-divider">
-                                </li> --}}
-                                <li><a class="dropdown-item" href="#">Log Out</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </nav>
     </header>

@@ -8,7 +8,7 @@
 
     <div class="table-responsive">
         <h2>Data Semua Peminjaman Alat</h2>
-        <a class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat"> + Tambah Data Peminjaman</a>
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat"> + Tambah Data Peminjaman</button>
         <table class="table table-striped" id="riwayatTable">
             <thead>
                 <tr>
@@ -122,8 +122,8 @@
         $(document).ready(function() {
             $('#riwayatTable').DataTable({
                 "aaSorting": [
-                    [2, "desc"],
-                    [3, "asc"]
+                    [3, "desc"],
+                    [4, "asc"]
                 ]
             });
         });

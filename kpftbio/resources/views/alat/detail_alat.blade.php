@@ -82,78 +82,6 @@
     </div>
 @endsection
 
-<<<<<<< Updated upstream
-    <div class="table-responsive">
-      <h2>Riwayat Peminjaman</h2>
-      <table class="table table-striped" id="riwayatTable">
-        <thead>
-          <tr>
-            <th scope="col">Nama Peminjam</th>
-            <th scope="col">NRP</th>
-            <th scope="col">Tanggal Pinjam</th>
-            <th scope="col">Jam Mulai</th>
-            <th scope="col">Jam Berakhir</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($dataRiwayat as $riwayat)
-            <tr>
-              <td>{{ $riwayat->nama }}</td>
-              <td>{{ $riwayat->nrp }}</td>
-              <td data-sort="{{strtotime($riwayat->tanggal)}}">{{ \Carbon\Carbon::parse($riwayat->tanggal)->isoFormat('LL') }}</td>
-              @if ($riwayat->jam_mulai < 10)
-                @if (fmod($riwayat->jam_mulai, 1) == 0)
-                  <td>{{ '0' . $riwayat->jam_mulai . ':00' }}</td>
-                @else
-                  <td>{{ '0' . ($riwayat->jam_mulai - 0.5) . ':30' }}</td>
-                @endif
-              @else
-                @if (fmod($riwayat->jam_mulai, 1) == 0)
-                  <td>{{ $riwayat->jam_mulai . ':00' }}</td>
-                @else
-                  <td>{{ $riwayat->jam_mulai - 0.5 . ':30' }}</td>
-                @endif
-              @endif
-              @if ($riwayat->jam_selesai < 10)
-                @if (fmod($riwayat->jam_selesai, 1) == 0)
-                  <td>{{ '0' . $riwayat->jam_selesai . ':00' }}</td>
-                @else
-                  <td>{{ '0' . ($riwayat->jam_selesai - 0.5) . ':30' }}</td>
-                @endif
-              @else
-                @if (fmod($riwayat->jam_selesai, 1) == 0)
-                  <td>{{ $riwayat->jam_selesai . ':00' }}</td>
-                @else
-                  <td>{{ $riwayat->jam_selesai - 0.5 . ':30' }}</td>
-                @endif
-              @endif
-            </tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-
-    <div class="d-grid gap-2 mt-3">
-      <a href="{{ url('pinjamAlat/' . $alat->id) }}" class="btn btn-primary">Pinjam Alat</a>
-    </div>
-  </div>
-
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#riwayatTable').DataTable({
-        "aaSorting": [
-          [2, "desc"],
-          [3, "asc"]
-        ]
-      });
-    });
-  </script>
-</body>
-
-</html>
-=======
 @section('script')
     <script>
         $(document).ready(function() {
@@ -166,4 +94,3 @@
         });
     </script>
 @endsection
->>>>>>> Stashed changes
