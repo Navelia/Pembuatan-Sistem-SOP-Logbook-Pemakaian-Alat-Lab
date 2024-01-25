@@ -18,7 +18,7 @@ class MahasiswaController extends Controller
     {
         $data = JenisAlat::all();
 
-        return view("mahasiswa.welcome", ["data" => $data]);
+        return view("mahasiswa.home", compact('data'));
     }
 
     public function detailJenisAlat($id)

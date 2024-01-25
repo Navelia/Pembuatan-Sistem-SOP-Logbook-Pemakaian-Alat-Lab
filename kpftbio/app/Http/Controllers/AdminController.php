@@ -25,6 +25,11 @@ class AdminController extends Controller
             array_push($data, ["data_jenis" => $temp, "jumlah_alat" => $count]);
         }
 
+        return view("admin.dataalat", ["data" => $data]);
+    }
+
+    public function riwayatHariIni()
+    {
         $riwayat = Riwayat::where("tanggal", Carbon::now()->isoFormat('YYYY-MM-DD'))->orderBy("tanggal")->orderBy("jam_mulai")->get();
         $dataRiwayatHariIni = [];
 
@@ -34,6 +39,11 @@ class AdminController extends Controller
             array_push($dataRiwayatHariIni, ["riwayat" => $temp, "alat" => $alat, "jenisAlat" => $jenisALat]);
         }
 
+        return view("admin.pinjamhariini", ["dataRiwayatHariIni" => $dataRiwayatHariIni]);
+    }
+
+    public function riwayatSemua()
+    {
         $riwayat = Riwayat::all();
         $dataRiwayat = [];
 
@@ -50,7 +60,7 @@ class AdminController extends Controller
             array_push($dataAlat, ["id" => $temp->id, "nama" => $temp->jenisAlat->nama . " - " . $temp->nomor]);
         }
 
-        return view("admin.home", ["data" => $data, "dataRiwayatHariIni" => $dataRiwayatHariIni, "dataRiwayat" => $dataRiwayat, "dataAlat" => $dataAlat]);
+        return view('admin.pinjamsemua', ["dataRiwayat" => $dataRiwayat, "dataAlat" => $dataAlat]);
     }
 
     public function tambahJenisAlat()
@@ -238,7 +248,11 @@ class AdminController extends Controller
     public function changeJamSelesaiAdmin($alat, $date, $jamMulai)
     {
         $riwayat = Riwayat::where("alat_id", $alat)->where("tanggal", $date)->where("jam_mulai", ">", $jamMulai)->orderBy("jam_mulai")->get();
+<<<<<<< Updated upstream
         $selesai = 24;
+=======
+        $selesai = 17;
+>>>>>>> Stashed changes
         if (count($riwayat) > 0) {
             $temp = $riwayat[0]->jam_mulai;
             if ($selesai - $temp > 0) {

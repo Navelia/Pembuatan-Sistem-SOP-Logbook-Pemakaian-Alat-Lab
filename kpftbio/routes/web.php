@@ -31,6 +31,9 @@ Route::post('/simpanPinjamAlat', [MahasiswaController::class, 'simpanPinjamAlat'
 Route::middleware(['auth'])->group(function () {
   Route::get('/home', [AdminController::class, 'home'])->name('home');
 
+  Route::get('/riwayatpinjamhariini', [AdminController::class, 'riwayathariini'])->name('riwayatpinjamhariini');
+  Route::get('/riwayatpinjamsemua', [AdminController::class, 'riwayatsemua'])->name('riwayatpinjamsemua');
+
   Route::get('/tambahJenisAlat', [AdminController::class, 'tambahJenisAlat'])->name('tambahJenisAlat');
   Route::post('/simpanTambahJenisAlat', [AdminController::class, 'simpanTambahJenisAlat'])->name('simpanTambahJenisAlat');
 
