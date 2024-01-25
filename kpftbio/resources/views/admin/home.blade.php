@@ -42,6 +42,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <style>
         :root {
@@ -69,6 +71,23 @@
 
         table {
             width: 100%;
+        }
+
+        .cardContainer {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #templateCetak {
+            display: inline-block;
+        }
+
+        #namaCetakAlat {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
     </style>
 </head>
