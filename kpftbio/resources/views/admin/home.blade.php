@@ -75,7 +75,7 @@
 
         .cardContainer {
             text-align: center;
-            border: 1px solid #ccc;
+            /* border: 1px solid #ccc; */
             padding: 20px;
             border-radius: 10px;
         }
