@@ -17,7 +17,7 @@ class JenisAlatSeeder extends Seeder
         DB::table("jenis_alats")->insert([
             "nama" => "Electroporator",
             "deskripsi" => "-",
-            "gambar" => "ELECTROPRORATOR.jpg"
+            "gambar" => "ELECTROPORATOR.jpg"
         ]);
 
         DB::table("jenis_alats")->insert([
