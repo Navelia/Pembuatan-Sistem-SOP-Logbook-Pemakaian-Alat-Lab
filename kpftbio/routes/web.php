@@ -34,6 +34,13 @@ Route::middleware(['auth'])->group(function () {
   Route::get('/riwayatpinjamhariini', [AdminController::class, 'riwayathariini'])->name('riwayatpinjamhariini');
   Route::get('/riwayatpinjamsemua', [AdminController::class, 'riwayatsemua'])->name('riwayatpinjamsemua');
 
+  Route::get('/laporanPeminjaman', [AdminController::class, 'laporanPeminjaman'])->name('laporanPeminjaman');
+  Route::get('/changeLab/{lab_id}', [AdminController::class, 'changeLab'])->name('changeLab');
+  Route::get('/changeAlat/{alat_id}', [AdminController::class, 'changeAlat'])->name('changeAlat');
+  Route::get('/changeTahun/{alat_id}/{tahun}', [AdminController::class, 'changeTahun'])->name('changeTahun');
+  Route::get('/tampilLaporan/{alat_id}/{tahun}/{bulan}', [AdminController::class, 'tampilLaporan'])->name('tampilLaporan');
+  Route::post('/cetakLaporan', [AdminController::class, 'cetakLaporan'])->name('cetakLaporan');
+
   Route::get('/tambahJenisAlat', [AdminController::class, 'tambahJenisAlat'])->name('tambahJenisAlat');
   Route::post('/simpanTambahJenisAlat', [AdminController::class, 'simpanTambahJenisAlat'])->name('simpanTambahJenisAlat');
 
@@ -42,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/simpanUbahJenisAlat', [AdminController::class, 'simpanUbahJenisAlat'])->name('simpanUbahJenisAlat');
 
   Route::post('/tambahAlat', [AdminController::class, 'tambahAlat'])->name('tambahAlat');
+  Route::post('/simpanListAlat', [AdminController::class, 'simpanListAlat'])->name('simpanListAlat');
 
   Route::get('/hapusRiwayat/{id}', [AdminController::class, 'hapusRiwayat'])->name('hapusRiwayat');
   Route::get('/hapusAlat/{id}', [AdminController::class, 'hapusAlat'])->name('hapusAlat');

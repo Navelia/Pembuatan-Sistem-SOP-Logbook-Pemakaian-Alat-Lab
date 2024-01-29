@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{ $riwayat['riwayat']->nama }}</td>
                         <td>{{ $riwayat['riwayat']->nrp }}</td>
-                        <td>{{ $riwayat['jenisAlat']->nama . ' - ' . $riwayat['alat']->nomor }}</td>
+                        <td>{{ $riwayat['jenisAlat']->nama . ' - ' . $riwayat['alat']->nomor . " (" . $riwayat['alat']->lab->nama . ")" }}</td>
                         <td data-sort="{{ strtotime($riwayat['riwayat']->tanggal) }}">
                             {{ \Carbon\Carbon::parse($riwayat['riwayat']->tanggal)->isoFormat('LL') }}</td>
                         @if ($riwayat['riwayat']->jam_mulai < 10)

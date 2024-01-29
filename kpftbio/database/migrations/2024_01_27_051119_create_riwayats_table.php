@@ -13,10 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('alats', function (Blueprint $table) {
+        Schema::create('riwayats', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('nomor')->nullable();
-            $table->integer('jenis_alat_id')->index('fk_alat_jenis_alat1_idx');
+            $table->string('nama')->nullable();
+            $table->string('nrp')->nullable();
+            $table->date('tanggal')->nullable();
+            $table->double('jam_mulai', 8, 2)->nullable();
+            $table->double('jam_selesai', 8, 2)->nullable();
+            $table->integer('alat_id')->index('fk_riwayat_alat1_idx');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alats');
+        Schema::dropIfExists('riwayats');
     }
 };

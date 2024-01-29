@@ -70,14 +70,14 @@
             $("#addSpesifikasi").click(function() {
                 var countItems = document.getElementById("spesifikasi-body").childElementCount;
                 $("#spesifikasi-body").append(
-                    "<tr draggable='true'><td><input name='namaSpesifikasi[]' required /></td><td><input name='spesifikasi[]' required /></td><td><button type='button' onClick='delete_row(this)'>Hapus</button></td></tr>"
+                    "<tr draggable='true'><td><input name='namaSpesifikasi[]' required /></td><td><input name='spesifikasi[]' required /></td><td><button type='button' class='btn btn-danger' onClick='delete_row(this)'>Hapus</button></td></tr>"
                 );
             });
 
             $("#addSop").click(function() {
                 var countItems = document.getElementById("spesifikasi-body").childElementCount;
                 $("#sop-body").append(
-                    "<tr draggable='true'><td><input name='sop[]' required /></td><td><button type='button' onClick='delete_row(this)'>Hapus</button></td></tr>"
+                    "<tr draggable='true'><td><input name='sop[]' required /></td><td><button type='button' class='btn btn-danger' onClick='delete_row(this)'>Hapus</button></td></tr>"
                 );
             });
         });

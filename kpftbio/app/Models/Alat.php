@@ -16,6 +16,11 @@ class Alat extends Model
         return $this->hasMany("App\Models\Riwayat", "alat_id");
     }
 
+    public function lab()
+    {
+        return $this->belongsTo("App\Models\Lab", "lab_id");
+    }
+
     public function jenisAlat()
     {
         return $this->belongsTo("App\Models\JenisAlat", "jenis_alat_id");

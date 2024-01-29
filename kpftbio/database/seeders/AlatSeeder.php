@@ -16,32 +16,38 @@ class AlatSeeder extends Seeder
     {
         DB::table("alats")->insert([
             "nomor" => 1,
-            "jenis_alat_id" => 1
+            "jenis_alat_id" => 1,
+            "lab_id" => 1
         ]);
 
         DB::table("alats")->insert([
             "nomor" => 2,
-            "jenis_alat_id" => 1
+            "jenis_alat_id" => 1,
+            "lab_id" => 2
         ]);
 
         DB::table("alats")->insert([
             "nomor" => 3,
-            "jenis_alat_id" => 1
+            "jenis_alat_id" => 1,
+            "lab_id" => 3
         ]);
 
         DB::table("alats")->insert([
             "nomor" => 1,
-            "jenis_alat_id" => 2
+            "jenis_alat_id" => 2,
+            "lab_id" => 4
         ]);
 
         DB::table("alats")->insert([
             "nomor" => 2,
-            "jenis_alat_id" => 2
+            "jenis_alat_id" => 2,
+            "lab_id" => 5
         ]);
 
         DB::table("alats")->insert([
             "nomor" => 3,
-            "jenis_alat_id" => 2
+            "jenis_alat_id" => 2,
+            "lab_id" => 6
         ]);
     }
 }

@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('alats', function (Blueprint $table) {
-            $table->foreign(['jenis_alat_id'], 'fk_alat_jenis_alat1')->references(['id'])->on('jenis_alats')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::create('labs', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->string('nama', 200)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,8 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('alats', function (Blueprint $table) {
-            $table->dropForeign('fk_alat_jenis_alat1');
-        });
+        Schema::dropIfExists('labs');
     }
 };

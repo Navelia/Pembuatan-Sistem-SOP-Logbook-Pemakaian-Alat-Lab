@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Alat;
 use App\Models\JenisAlat;
+use App\Models\Lab;
 use App\Models\Riwayat;
 use App\Models\Sop;
 use App\Models\Spesifikasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
-use Facade\FlareClient\Stacktrace\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 
 class AdminController extends Controller
 {
@@ -57,7 +57,7 @@ class AdminController extends Controller
         $dataAlat = [];
 
         foreach ($alat as $temp) {
-            array_push($dataAlat, ["id" => $temp->id, "nama" => $temp->jenisAlat->nama . " - " . $temp->nomor]);
+            array_push($dataAlat, ["id" => $temp->id, "nama" => $temp->jenisAlat->nama . " - " . $temp->nomor . " (" . $temp->lab->nama . ")"]);
         }
 
         return view('admin.pinjamsemua', ["dataRiwayat" => $dataRiwayat, "dataAlat" => $dataAlat]);
@@ -127,8 +127,9 @@ class AdminController extends Controller
         $spesifikasi = Spesifikasi::where("jenis_alat_id", $id)->get();
         $sop = Sop::where("jenis_alat_id", $id)->orderBy("urutan")->get();
         $alat = Alat::where("jenis_alat_id", $id)->orderBy("nomor")->get();
+        $lab = Lab::all();
 
-        return view("admin.ubahJenisAlat", ["dataJenisAlat" => $data, "dataSpesifikasi" => $spesifikasi, "dataSop" => $sop, "dataAlat" => $alat]);
+        return view("admin.ubahJenisAlat", ["dataJenisAlat" => $data, "dataSpesifikasi" => $spesifikasi, "dataSop" => $sop, "dataAlat" => $alat, "dataLab" => $lab]);
     }
 
     public function ubahGambarJenisAlat(Request $request)
@@ -189,6 +190,7 @@ class AdminController extends Controller
     public function tambahAlat(Request $request)
     {
         $jenisALatId = $request->idJenisAlat;
+        $labId = $request->labAlat;
 
         $nomorAkhir = Alat::where("jenis_alat_id", $jenisALatId)->orderBy("nomor")->get()->last();
         if ($nomorAkhir) {
@@ -202,10 +204,24 @@ class AdminController extends Controller
             $newAlat = new Alat();
             $newAlat->nomor = $i + $nomorAkhir;
             $newAlat->jenis_alat_id = $jenisALatId;
+            $newAlat->lab_id = $labId;
             $newAlat->save();
         }
 
         return redirect()->back()->with('status', 'Berhasil menambah alat');
+    }
+
+    public function simpanListAlat(Request $request)
+    {
+        $idAlat = $request->idAlat;
+        $listLabAlat = $request->listLabAlat;
+
+        for ($i = 0; $i < count($idAlat); $i++) {
+            $alat = Alat::find($idAlat[$i]);
+            $alat->lab_id = $listLabAlat[$i];
+            $alat->save();
+        }
+        return redirect()->back()->with('status', 'Berhasil mengubah daftar alat');
     }
 
     public function hapusRiwayat($id)
@@ -264,8 +280,7 @@ class AdminController extends Controller
             if (fmod($temp, 1) == 0) {
                 if ($temp < 10) {
                     $text = "0$temp";
-                }
-                else{
+                } else {
                     $text = "$temp";
                 }
                 $text = "$text:00";
@@ -273,8 +288,7 @@ class AdminController extends Controller
                 $temp2 = $temp - 0.5;
                 if ($temp < 10) {
                     $text = "0$temp2";
-                }
-                else{
+                } else {
                     $text = "$temp2";
                 }
                 $text = "$text:30";
@@ -319,5 +333,111 @@ class AdminController extends Controller
 
         $riwayat->save();
         return redirect()->back()->with('status', 'Berhasil menambahkan data peminjaman baru');
+    }
+
+    public function laporanPeminjaman()
+    {
+        $lab = Lab::all();
+        return view("admin.laporanPeminjaman", ["dataLab" => $lab]);
+    }
+
+    public function changeLab($lab_id)
+    {
+        $alat = Alat::where("lab_id", $lab_id)->get();
+        $alatOption = [];
+        foreach ($alat as $temp) {
+            $text = $temp->jenisAlat->nama . " - " . $temp->nomor;
+            $array = ['value' => $temp->id, 'text' => $text];
+            array_push($alatOption, $array);
+        }
+        return response()->json($alatOption);
+    }
+
+    public function changeAlat($alat_id)
+    {
+        $tahun = Riwayat::selectRaw('extract(year FROM tanggal) AS year')->where("alat_id", $alat_id)->distinct()->orderBy('year', 'desc')->get();
+        $tahunOption = [];
+        foreach ($tahun as $temp) {
+            $array = ['value' => $temp->year, 'text' => $temp->year];
+            array_push($tahunOption, $array);
+        }
+        return response()->json($tahunOption);
+    }
+
+    public function changeTahun($alat_id, $tahun)
+    {
+        $bulan = Riwayat::selectRaw('extract(month FROM tanggal) AS month')->where("alat_id", $alat_id)->whereYear("tanggal", "=", $tahun)->distinct()->orderBy('month', 'asc')->get();
+        $bulanOption = [];
+        $namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        foreach ($bulan as $temp) {
+            $text = $namaBulan[$temp->month - 1];
+            $array = ['value' => $temp->month, 'text' => $text];
+            array_push($bulanOption, $array);
+        }
+        return response()->json($bulanOption);
+    }
+
+    public function tampilLaporan($alat_id, $tahun, $bulan)
+    {
+        $riwayat = Riwayat::where("alat_id", $alat_id)->whereYear("tanggal", "=", $tahun)->whereMonth("tanggal", "=", "$bulan")->orderBy('tanggal', 'asc')->orderBy('jam_mulai', 'asc')->get();
+        $dataRiwayat = [];
+        foreach ($riwayat as $temp) {
+            $tanggal = Carbon::parse($temp->tanggal)->isoFormat("LL");
+
+            $mulai = $temp->jam_mulai;
+            $mulai_text = "";
+            if ($mulai < 10) {
+                if (fmod($mulai, 1) == 0) {
+                    $mulai_text = "0" . $mulai . ":00";
+                } else {
+                    $mulai_text = "0" . ($mulai - 0.5) . ":30";
+                }
+            } else {
+                if (fmod($mulai, 1) == 0) {
+                    $mulai_text = $mulai . ":00";
+                } else {
+                    $mulai_text = ($mulai - 0.5) . ":30";
+                }
+            }
+
+            $selesai = $temp->jam_selesai;
+            $selesai_text = "";
+            if ($selesai < 10) {
+                if (fmod($selesai, 1) == 0) {
+                    $selesai_text = "0" . $selesai . ":00";
+                } else {
+                    $selesai_text = "0" . ($selesai - 0.5) . ":30";
+                }
+            } else {
+                if (fmod($selesai, 1) == 0) {
+                    $selesai_text = $selesai . ":00";
+                } else {
+                    $selesai_text = ($selesai - 0.5) . ":30";
+                }
+            }
+
+            $array = ["nama" => $temp->nama, "nrp" => $temp->nrp, "tanggal" => $tanggal, "mulai" => $mulai_text, "selesai" => $selesai_text];
+            array_push($dataRiwayat, $array);
+        }
+        return response()->json($dataRiwayat);
+    }
+
+    public function cetakLaporan(Request $request){
+        $alat_id = $request->alat_id;
+        $tahun = $request->tahun;
+        $bulan = $request->bulan;
+
+        $dataRiwayat = Riwayat::where("alat_id", $alat_id)->whereYear("tanggal", "=", $tahun)->whereMonth("tanggal", "=", "$bulan")->orderBy('tanggal', 'asc')->orderBy('jam_mulai', 'asc')->get();
+
+        $alat = Alat::find($alat_id);
+
+        $namaBulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        $bulan = $namaBulan[$bulan - 1];
+
+        $pdf = PDF::loadView('admin.templateLaporan', compact('dataRiwayat', 'tahun', 'bulan', 'alat'));
+
+        $filename = $alat->jenisAlat->nama . " - " . $alat->nomor . " (" . $alat->lab->nama . ") " . $bulan . " " . $tahun . ".pdf";
+        
+        return $pdf->download($filename);
     }
 }
