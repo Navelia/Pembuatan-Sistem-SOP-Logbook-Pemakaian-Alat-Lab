@@ -65,8 +65,9 @@
         }
 
         .imgJenis {
-            max-width: 100px;
-            max-height: 100px;
+            max-width: 50px;
+            height: auto;
+
         }
 
         .image-preview {
@@ -75,7 +76,7 @@
         }
 
         #imagePreview {
-            width: 600px;
+            width: 400px;
             height: auto;
         }
 

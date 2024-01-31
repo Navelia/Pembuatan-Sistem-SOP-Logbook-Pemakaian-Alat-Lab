@@ -70,6 +70,8 @@
             justify-content: center;
             margin: 0 auto;
             margin-bottom: 20px;
+            overflow: hidden;
+            object-fit: cover;
         }
 
         .paragraphs-container {
@@ -86,6 +88,16 @@
 
         .informasi-alat {
             padding-left: 10%;
+        }
+
+        @media (max-width: 700px) {
+            .card-title {
+                text-align: center;
+            }
+
+            .card-text {
+                text-align: justify;
+            }
         }
     </style>
 

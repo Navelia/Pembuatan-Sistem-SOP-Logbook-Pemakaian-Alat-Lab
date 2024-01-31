@@ -62,7 +62,7 @@
       </table>
     </div>
 
-    <button type="submit" class="btn btn-info btn-fill" onclick="return confirm('Apakah data jenis alat sudah benar?')">Simpan Alat</button>
+    <button type="submit" class="btn btn-primary btn-fill" onclick="return confirm('Apakah data jenis alat sudah benar?')">Simpan Alat</button>
   </form>
 @endsection
 

@@ -16,7 +16,7 @@
     <div class="image-container image-preview">
       <img id="imagePreview" class="card-img-top img-fluid" src='{{ asset("images/jenis_alat/$dataJenisAlat->gambar") }}' />
     </div>
-    <button class="btn btn-info btn-fill" type="submit">Ubah Gambar</button>
+    <button class="btn btn-primary btn-fill" type="submit">Ubah Gambar</button>
   </form>
   <form action="{{ route('simpanUbahJenisAlat') }}" method="post" enctype="multipart/form-data">
     @csrf
