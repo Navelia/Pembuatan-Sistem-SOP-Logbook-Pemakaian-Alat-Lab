@@ -69,6 +69,16 @@
             max-height: 100px;
         }
 
+        .image-preview {
+            display: flex;
+            justify-content: center;
+        }
+
+        #imagePreview {
+            width: 600px;
+            height: auto;
+        }
+
         table {
             width: 100%;
         }
