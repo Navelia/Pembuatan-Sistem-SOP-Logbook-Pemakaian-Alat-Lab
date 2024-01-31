@@ -65,7 +65,8 @@ class AdminController extends Controller
 
     public function tambahJenisAlat()
     {
-        return view("admin.tambahJenisAlat");
+        $lab = Lab::all();
+        return view("admin.tambahJenisAlat", ["dataLab" => $lab]);
     }
 
     public function simpanTambahJenisAlat(Request $request)
@@ -109,11 +110,12 @@ class AdminController extends Controller
             $newSop->save();
         }
 
-        $jumlahAlat = $request->jumlahAlat;
-        for ($i = 0; $i < $jumlahAlat; $i++) {
+        $labAlat = $request->labAlat;
+        for ($i = 0; $i < count($labAlat); $i++) {
             $newAlat = new Alat();
             $newAlat->nomor = $i + 1;
             $newAlat->jenis_alat_id = $jenisALatId;
+            $newAlat->lab_id = $labAlat[$i];
             $newAlat->save();
         }
 
@@ -439,5 +441,11 @@ class AdminController extends Controller
         $filename = $alat->jenisAlat->nama . " - " . $alat->nomor . " (" . $alat->lab->nama . ") " . $bulan . " " . $tahun . ".pdf";
         
         return $pdf->download($filename);
+    }
+
+    public function dataLab()
+    {
+        $lab = Lab::all();
+        return view("admin.dataLab", ["dataLab" => $lab]);
     }
 }

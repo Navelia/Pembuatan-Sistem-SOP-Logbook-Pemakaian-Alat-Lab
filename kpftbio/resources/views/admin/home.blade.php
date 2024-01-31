@@ -143,6 +143,11 @@
                             <div>Laporan Peminjaman Alat</div>
                         </a>
                     </li>
+                    <li class="menu-item">
+                        <a href="{{ route('dataLab') }}" class="menu-link">
+                            <div>Data Lab</div>
+                        </a>
+                    </li>
 
                     <li class="menu-header small text-uppercase"><span class="menu-header-text">Logout</span></li>
                     <li class="menu-item">

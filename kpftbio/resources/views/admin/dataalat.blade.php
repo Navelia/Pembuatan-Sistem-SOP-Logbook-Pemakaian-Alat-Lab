@@ -7,6 +7,7 @@
     @endif
     <div class="table-responsive">
         <h2>Daftar Jenis Alat</h2><a href="{{ url('tambahJenisAlat/') }}" class="btn btn-primary">+ Tambah Jenis Alat</a>
+        <br><br>
         <table class="table table-striped" id="jenisAlatTable">
             <thead>
                 <tr>

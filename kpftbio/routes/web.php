@@ -58,6 +58,8 @@ Route::middleware(['auth'])->group(function () {
 
   Route::get('/changeJamSelesaiAdmin/{alat}/{date}/{jamMulai}', [AdminController::class, 'changeJamSelesaiAdmin'])->name('changeJamSelesaiAdmin');
   Route::post('/simpanPinjamAlatAdmin', [AdminController::class, 'simpanPinjamAlatAdmin'])->name('simpanPinjamAlatAdmin');
+
+  Route::get('/dataLab', [AdminController::class, 'dataLab'])->name('dataLab');
 });
 
 Auth::routes();
