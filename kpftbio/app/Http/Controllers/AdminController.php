@@ -424,7 +424,8 @@ class AdminController extends Controller
         return response()->json($dataRiwayat);
     }
 
-    public function cetakLaporan(Request $request){
+    public function cetakLaporan(Request $request)
+    {
         $alat_id = $request->alat_id;
         $tahun = $request->tahun;
         $bulan = $request->bulan;
@@ -439,7 +440,7 @@ class AdminController extends Controller
         $pdf = PDF::loadView('admin.templateLaporan', compact('dataRiwayat', 'tahun', 'bulan', 'alat'));
 
         $filename = $alat->jenisAlat->nama . " - " . $alat->nomor . " (" . $alat->lab->nama . ") " . $bulan . " " . $tahun . ".pdf";
-        
+
         return $pdf->download($filename);
     }
 
@@ -447,5 +448,36 @@ class AdminController extends Controller
     {
         $lab = Lab::all();
         return view("admin.dataLab", ["dataLab" => $lab]);
+    }
+
+    public function tambahLab(Request $request)
+    {
+        $nama = $request->nama;
+        $lab = new Lab();
+        $lab->nama = $nama;
+        $lab->save();
+        return redirect()->back()->with('status', 'Berhasil menambahkan data lab baru');
+    }
+
+    public function ubahLab(Request $request)
+    {
+        $id = $request->idLab;
+        $nama = $request->namaLab;
+        $lab = Lab::find($id);
+        $lab->nama = $nama;
+        $lab->save();
+        return redirect()->back()->with('status', 'Berhasil mengubah data lab');
+    }
+
+    public function hapusLab($id)
+    {
+        $lab = Lab::find($id);
+        $alat = Alat::where("lab_id", $id)->get();
+        foreach ($alat as $temp) {
+            Riwayat::where("alat_id", $temp->id)->delete();
+            $temp->delete();
+        }
+        $lab->delete();
+        return redirect()->back()->with('status', 'Berhasil menghapus data lab');
     }
 }

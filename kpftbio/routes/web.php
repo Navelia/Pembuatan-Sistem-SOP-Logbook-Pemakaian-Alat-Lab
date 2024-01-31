@@ -60,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/simpanPinjamAlatAdmin', [AdminController::class, 'simpanPinjamAlatAdmin'])->name('simpanPinjamAlatAdmin');
 
   Route::get('/dataLab', [AdminController::class, 'dataLab'])->name('dataLab');
+  Route::post('/tambahLab', [AdminController::class, 'tambahLab'])->name('tambahLab');
+  Route::post('/ubahLab', [AdminController::class, 'ubahLab'])->name('ubahLab');
+  Route::get('/hapusLab/{id}', [AdminController::class, 'hapusLab'])->name('hapusLab');
 });
 
 Auth::routes();
