@@ -8,7 +8,7 @@
 
     <div class="table-responsive">
         <h2>Data Semua Peminjaman Alat</h2>
-        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat"> + Tambah Data Peminjaman</button>
+        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalTambahRiwayat"> + Tambah Data Peminjaman</button><br><br>
         <table class="table table-striped" id="riwayatTable">
             <thead>
                 <tr>
