@@ -14,6 +14,6 @@ class AlatSeeder extends Seeder
      */
     public function run()
     {
-        
+         
     }
 }
